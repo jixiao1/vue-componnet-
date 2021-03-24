@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+table{
+  border-collapse: collapse;
+}
+table tr.hover{
+  background-color: lightgreen;
+}
+
+.odd{
+  background-color: lightblue;
+}
+.even{
+  background-color: lightcyan;
+}
+
+.odd2{
+  background-color: lightseagreen;
+}
+.even2{
+  background-color: lightpink;
+}
+
+.odd3{
+  background-color: #ccc;
+}
+.even3{
+  background-color: lightcoral;
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <select v-model="selectIndex">
+    <option v-for="(item,index) in colors" :value="index">{{item}}</option>
+  </select>
+  <table border="1" @mouseleave="leaveTable">
+    <tr 
+      v-for="(trItem,trIndex) in tables"
+      :class="[trIndex%2?colors[selectIndex][0]:colors[selectIndex][1],hoverIndex===trIndex?'hover':'']"
+      @mouseenter="enterTr(trIndex)"
+    >
+      <td v-for="(tdItem,tdIndex) in trItem">{{tdItem}}</td>
+    </tr>
+  </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+// 现实table
+//   - 隔行换色
+//   - 鼠标移入行的颜色变化
+//   - 有一个下拉列表，可以选择切换隔行的颜色
+
+// 创建vue实例
+var vm = new Vue({//配置项
+  el: '#app',// 挂载点
+  data: {// 数据
+    hoverIndex: -1,
+    selectIndex: 0,//默认选项的value
+    tables: [
+      ['第一行1','第一行2','第一行3','第一行4'],
+      ['第二行1','第二行2','第二行3','第二行4'],
+      ['第三行1','第三行2','第三行3','第三行4'],
+      ['第四行1','第四行2','第四行3','第四行4'],
+      ['第五行1','第五行2','第五行3','第五行4']
+    ],
+    colors: [
+      ['odd','even'],
+      ['odd2','even2'],
+      ['odd3','even3']
+    ]
+  },
+  methods: {// 方法，事件处理函数所在的地方
+    enterTr(index){
+      this.hoverIndex = index;
+    },
+    leaveTable(){
+      this.hoverIndex = -1;
+    }
+  }
+})
+</script>
+</body>
+</html>

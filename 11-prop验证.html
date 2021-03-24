@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+
+</style>
+</head>
+<body>
+
+<div id="app">
+  <father></father>
+</div>
+
+<template id="father">
+  <div>
+    <h1>这里是 father 组件</h1>
+    <!-- prop传递数据 -->
+    <son :prop1="text" :prop2="money" :prop5="hi"></son>
+  </div>
+</template>
+<template id="son">
+  <div>
+    <h1>这里是 son 组件</h1>
+    <button @click="looklook">看看收到的是啥</button>
+    <div>父组件传入的值为：{{prop1}}</div>
+    <div>父组件传入的值为：{{prop2}}</div>
+    <div>父组件传入的值为：{{prop3}}</div>
+    <div>父组件传入的值为：{{prop4}}</div>
+    <div>父组件传入的值为：{{prop5}}</div>
+  </div>
+</template>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+Vue.component('father',{
+  template: '#father',
+  data(){
+    return {
+      text: '儿啊，其实这都是假的',
+      money: 100,
+      obj: {name:'小芳',age:33},
+      hi: 'val4'
+    }
+  }
+});
+Vue.component('son',{
+  template: '#son',
+  // props: ['prop1'],// 接收prop数据
+  props: {
+    prop1: String,
+    prop2: [String,Number],
+    prop3: {
+      type: Number,// 验证类型
+      default: 10000// 默认值
+    },
+    prop4: {
+      type: Array,// 验证类型
+      // default: [1,2,3,4]// 数组或对象默认值不能直接给
+      default: function (){// 是数组或对象时需要用函数返回默认
+        return [1,2,3,4]// 默认值
+      }
+    },
+    prop5: {
+      // 自定义校验规则
+      validator: function (val){
+        // ....
+        return ['val1','val2','val3'].indexOf(val) !== -1
+      }
+    }
+  },
+  data(){
+    return {
+      // msg: 'afasfs',
+      sonMsg: '感谢老爹的500万'
+    }
+  },
+  methods: {
+    looklook(){
+      // console.log(typeof this.prop1);
+      // console.log(typeof this.prop2);
+      console.log(typeof this.prop3);
+    }
+  }
+});
+
+// 创建vue实例
+var vm = new Vue({//配置项
+  el: '#app',// 挂载点
+  data: {// 数据
+
+  },
+  methods: {// 方法，事件处理函数所在的地方
+    
+  }
+})
+</script>
+</body>
+</html>
